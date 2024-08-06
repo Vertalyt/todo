@@ -1,3 +1,5 @@
+const path = require('path');
+
 /* eslint-env node */
 
 /*
@@ -21,8 +23,8 @@ module.exports = configure(function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
     boot: [
-      
-      
+
+
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
@@ -67,7 +69,12 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf (viteConf) {
+        viteConf.resolve.alias = {
+          ...viteConf.resolve.alias,
+          '@': path.resolve(__dirname, 'src')
+        };
+      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [
