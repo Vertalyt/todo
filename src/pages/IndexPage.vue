@@ -1,11 +1,9 @@
 <template>
   <q-page>
-    <!-- компонент додавання завдань -->
     <InputTasks
     @add-todo="addTodo"
     />
 
-      <!-- checkbox поточного дня -->
     <q-checkbox v-model="todayTask" rounded label="Сьогоднішні завдання" keep-color />
 
       <TodayTodo
@@ -17,7 +15,7 @@
 
     <OllTodoLists
     v-if="restData.length"
-    :tasksOll="restData"
+    :tasksAll="restData"
     @update-task="updateTask"
     />
 
@@ -65,7 +63,6 @@ watch(todayTask, check => {
 
 onMounted(() => {
  arrTaskList.value = getItemLocal()
-
 })
 
 watch(arrTaskList, val => {
@@ -81,22 +78,22 @@ watch(arrTaskList, val => {
 }, { deep: true })
 
 
-const addTodo = (text, date) => {
+const addTodo = ({text, date}) => {
  if (arrTaskList.value.length) {
     // Шукаємо об'єкт з відповідною датою
     const recordingDate = arrTaskList.value.find(dateRec => Object.keys(dateRec)[0] === date);
     if (recordingDate) {
       // Якщо знайдено об'єкт з такою датою, оновлюємо його значення
-      recordingDate[date].push({ text: text, check: false });
+      recordingDate[date].push({ text:text, check: false });
     } else {
       // Якщо об'єкта з такою датою немає, створюємо новий об'єкт
-      arrTaskList.value.push({ [date]: [{ text: text, check: false }] });
+      arrTaskList.value.push({ [date]: [{ text:text, check: false }] });
     }
   } else {
     // Якщо масив пустий, створюємо новий об'єкт
     arrTaskList.value.push({ [date]: [{ text: text, check: false }] });
   }
-  setItemLocal(arrTaskList.value)
+   setItemLocal(arrTaskList.value)
 }
 
 // Оновлюемо статус завдання

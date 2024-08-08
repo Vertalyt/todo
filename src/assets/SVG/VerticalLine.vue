@@ -11,7 +11,6 @@
 <script setup>
 defineProps({
   fillColor: {
-    required: false,
     default: '#A9A9A9',
     type: String
   }

@@ -1,6 +1,5 @@
 <template>
   <div class="q-gutter-sm">
-    <!-- Інпут додавання завдання -->
     <q-input
       ref="textRefInput"
       outlined
@@ -11,7 +10,6 @@
       label="Додайте завдання"
       @keyup.enter="onEnterInput"
     />
-        <!-- Інпут додавання дати -->
       <q-input
       ref="dateRefInput"
       v-model="dateTask"
@@ -54,7 +52,7 @@ const resetFields = () => {
 }
 
 const addToDO = () => {
-  emit('add-todo', textTask.value, dateTask.value)
+  emit('add-todo', { text: textTask.value, date: dateTask.value })
   resetFields()
 }
 

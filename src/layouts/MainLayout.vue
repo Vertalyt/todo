@@ -41,6 +41,10 @@ import { bg } from "@/constants";
 import { useRoute } from "vue-router ";
 import { computed, watch, ref } from "vue";
 
+defineOptions({
+  name: "MainLayout",
+});
+
 const route = useRoute();
 
 const routePath = computed(() => route.path);
@@ -59,7 +63,4 @@ watch(routePath, (val) => {
 }, { immediate:true });
 
 
-defineOptions({
-  name: "MainLayout",
-});
 </script>

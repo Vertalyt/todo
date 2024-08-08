@@ -1,9 +1,9 @@
 
 <template>
 
-  <q-page>
+  <q-page class="flex justify-center">
 
-    <div v-if="arrTaskList.length" lass="q-pa-md" style="max-width: 350px, ">
+    <div v-if="arrTaskList.length" :style="{ 'max-width': '350px' }" class="q-pa-md ">
     <q-list bordered>
       <q-item v-ripple>
         <q-item-section>Виконані завдання</q-item-section>
@@ -36,13 +36,11 @@ import { onMounted, watch, ref } from 'vue'
 import { arrTaskList } from '@/constants'
 import { getItemLocal } from '@/functions'
 
-
 onMounted( () => {
   if(!arrTaskList.value.length ) {
     arrTaskList.value = getItemLocal()
   }
 })
-
 
 const completedTasks = ref(0)
 const notCompletedTasks = ref(0)
@@ -63,8 +61,6 @@ watch(arrTaskList, val => {
 });
   }
 }, { deep: true, immediate: true })
-
-
 
 </script>
 

@@ -1,53 +1,49 @@
 <template>
-
-  <!-- Список завдань поточного дня -->
   <q-slide-transition>
-    <!-- Флаг чи розгорнуто -->
     <div v-if="todayTask">
-
-      <q-list dense bordered padding  class="rounded-borders q-mb-lg shadow-21">
-
+      <q-list dense bordered padding class="rounded-borders q-mb-lg shadow-21">
         <q-item
-        rounded>
-          <q-item-section          >
-            <div
-              v-for="(task, idx) in computedTasks[0][Object.keys(computedTasks[0])[0]]"
-              :key="idx"
+          v-for="(task, idx) in tasksForGivenDate(computedTasks)"
+          :key="idx"
+          rounded
+        >
+          <q-item-section>
+            <TaskItem
+              :labelText="task.text"
+              :tasks="task.text"
+              :key="task.text"
+              :fillColor="task.fill"
+              :statusText="task.check"
+              :isAllToDo="false"
             >
-              <tasks
-                :labelText="task.text"
-                :key="task.text"
-                :fillColor="task.fill"
-                :statusText="task.check"
-                :isOllToDo="false"
-              >
-                <ToggleCheck
-                  :toggle="task.check"
-                  @update:toggle="(newVal) => updateToggle(
-                        newVal,
-                        task.text,
-                        Object.keys(computedTasks[0])[0]
-                      )
-                  "
-                />
-              </tasks>
-            </div>
+              <ToggleCheck
+                :toggle="task.check"
+                @update:toggle="
+                  (newVal) =>
+                    updateToggle(
+                      newVal,
+                      task.text,
+                      Object.keys(computedTasks[0])[0]
+                    )
+                "
+              />
+            </TaskItem>
           </q-item-section>
         </q-item>
       </q-list>
     </div>
   </q-slide-transition>
-
 </template>
 
 <script setup>
 import { computed } from "vue";
 
-import Tasks from "@/components/indexPageComponents/tasks/Tasks.vue";
+import TaskItem from "@/components/indexPageComponents/tasks/TaskItem.vue";
 import ToggleCheck from "@/components/indexPageComponents/ToggleCheck.vue";
 
-const emit = defineEmits({
-  "update-task": Object,
+
+defineOptions({
+  name: "TodayTodo",
 });
 
 const props = defineProps({
@@ -58,20 +54,24 @@ const props = defineProps({
   todayTask: {
     required: true,
     type: Boolean,
-  }
+  },
 });
 
-const computedTasks = computed( () => props.todayData )
+const emit = defineEmits({
+  "update-task": Object,
+});
+
+const computedTasks = computed(() => props.todayData);
 
 const updateToggle = (check, text, data) => {
   emit("update-task", { check, text, data });
+};
+
+const tasksForGivenDate = (computedTasks) => {
+  return computedTasks[0][Object.keys(computedTasks[0])[0]];
 }
 
-defineOptions({
-  name: "TodayTodo",
-});
 </script>
-
 
 <style scoped>
 .rounded-borders {
